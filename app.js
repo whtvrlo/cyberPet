@@ -6,47 +6,35 @@ import { Planet_Teagardens_Star_B, Planet_Wolf_1061c as Planet_Wolf_1061c, Plane
 
 
 
+
 const playAgain = async () => {
   let response = await inquirer.prompt(playAgainQuestion)
-
-  if (response.action === "Yes") {
-  console.log("Fetching an egg from the cosmos......")
-  console.log("image of space")
-  // init()
-  // gameLoop()
+   if (response.listQuestion === "Yes") {
+    console.log("Fetching an egg from the cosmos......");
+    console.log("image of space");
+    myAlien.reset()
+    init()
   } else {
-    console.log("end game")
-    console.log("pic of space")
+    console.log("end game");
+    console.log("pic of space");
   }
 }
 
-// const askPlayAgain = () => {
-// let inquirer = require('inquirer');
-// inquirer
-// .prompt([
-//   {
-//     type: 'list',
-//     name: 'list question',
-//     message: 'Would you like an alien to be born?',
-//     choices:['yes', 'no']
-//   },
-// ])
-// .then(answers => {
-//   console.log(answers)
-
-// })
-// }
 
 
 let gameOver = () => {
-  console.log(`${myAlien.name} RIP  `)
   sleep(3000)
-  // console.log(`         ==
-  // <^\()/^>
-  //  \/  \/
-  //   /  \
-  //   `''``)
+  console.log(`R.I.P ${myAlien.name}`)
+  myAlien.age = (Math.round(myAlien.age))
+  if (myAlien.age == 1) {
+    console.log(`${myAlien.age} year old`)
+  } else if (myAlien.Age > 1 || my.myAlien.age >= 2) {
+    console.log(`${myAlien.age} years old`)
+  }
+  sleep(3000)
+  console.log("👼")
 
+ 
 playAgain()
 }
 
@@ -77,7 +65,7 @@ const init = async () => {
   
 
   ui.log.write(
-    `${myAlien.name} | Hunger: ${myAlien.hunger} | Thirst: ${myAlien.thirst} | Energy: ${myAlien.energy} | Hygiene: ${myAlien.hygiene}`
+    `${myAlien.name} | Hunger: ${myAlien.hunger} | Thirst: ${myAlien.thirst} | Energy: ${myAlien.energy} | Hygiene: ${myAlien.hygiene}| Happiness: ${myAlien.happiness} | Knowledge: ${myAlien.knowledge}`
   )
 
 
@@ -88,41 +76,46 @@ const init = async () => {
 
 const gameLoop = async () => {
   try {
-    if (myAlien.health >= 100 || myAlien.health <= 0) {
-      return
-    } else if (myAlien.thirst <=0) {
+    if ((myAlien.hunger >= 100 || myAlien.health <= 0) ||   myAlien.thirst >= 100) {
       console.log("you've overfed your pet")
       await sleep(2000);
-      myAlien.thirst += 20 // set to 100 when game is tested
       gameOver()
+      //return
+    // }else if ((myAlien.energy <= 30)){
+    //   console.log("Kkkkkkgggggggggggppppssssjjeeeewwwwwww")
+    //   console.log("What's that sound!?")
+    //   console.log("Warning:")
+    //   console.log(`${myAlien.name} is low on energy!`)
+
+    
+    }else {
+      myAlien.time()
+      myAlien.age += 0.2
+      // imageOfPet()
+      let response = await inquirer.prompt(gameQuestion)
+  
+      if (response.action === "drink") {
+        myAlien.drink()
+      } else if (response.action === "feed") {
+        myAlien.feed()
+        
+      } else if (response.action === "sleep") {
+        myAlien.sleep()
+      } else if (response.action === "clean") {
+        myAlien.clean()
+      }
+  
+      ui.log.write(
+        `${myAlien.name} | Hunger: ${myAlien.hunger} | Thirst: ${myAlien.thirst} | Energy: ${myAlien.energy} | Hygiene: ${myAlien.hygiene} | Happiness: ${myAlien.happiness} | Knowledge: ${myAlien.knowledge}`
+      )
+  
+      gameLoop()
       
-      
-
     }
-
-    // myPet.time()
-
-    let response = await inquirer.prompt(gameQuestion)
-
-    if (response.action === "drink") {
-      myAlien.drink()
-    } else if (response.action === "feed") {
-      myAlien.feed()
-    } else if (response.action === "sleep") {
-      myAlien.sleep()
-    } else if (response.action === "clean") {
-      myAlien.clean()
-    }
-
-    ui.log.write(
-      `${myAlien.name} | Hunger: ${myAlien.hunger} | Thirst: ${myAlien.thirst} | Energy: ${myAlien.energy} | Hygiene: ${myAlien.hygiene}`
-    )
-
-    gameLoop()
   } catch (error) {
     console.log(error)
   }
 }
 
 init()
-// askPlayAgain()
+
